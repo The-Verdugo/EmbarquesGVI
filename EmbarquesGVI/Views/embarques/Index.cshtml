@@ -1,0 +1,93 @@
+﻿@model IEnumerable<EmbarquesGVI.Models.BD_A.embarques>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Embarques</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-success">Crear Embarque <i class="bi bi-plus-square"></i></a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DocNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.plaza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.almacen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoGuia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total_Paquetes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.embarquesDetCajas.DocEntry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.embarquesDetTrans.No_trans)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.usuarios.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.paqueterias.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tiposSol.nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.plaza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.almacen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoGuia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total_Paquetes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.embarquesDetCajas.DocEntry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.embarquesDetTrans.No_trans)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.usuarios.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.paqueterias.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tiposSol.nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DocEntry }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DocEntry }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DocEntry })
+        </td>
+    </tr>
+}
+
+</table>

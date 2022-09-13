@@ -3,20 +3,30 @@
     ViewBag.Title = "login";
 }
 
-<form>
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
+<div class="container d-flex justify-content-center">
+    <form class="col-md-4 col-sm-8 mt-4 p-3 rounded shadow bg-light">
+        <div class="h4 d-flex justify-content-center mb-1">Iniciar Sesi&oacute;n</div>
+        <div class="mb-3 d-flex justify-content-center">
+            <img src="~/Media/container.png" width="100" height="100" />
+        </div>
+        <div class="mb-3">
+            <label for="user" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="user">
+        </div>
+        <div class="mb-3">
+            <label for="pass" class="form-label">Contrase&ntilde;a</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="pass">
+                <button class="btn btn-outline-secondary" type="button" id="btnshowpass" data-bs-toggle="tooltip" title="Mostrar/Ocultar Contrase&ntilde;a" data-bs-placement="right"><i id="iconshow" class="bi bi-eye-fill"></i></button>
+            </div>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">No cerrar sesi&oacute;n</label>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Iniciar Sesi&oacute;n</button>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/scriptsLogin.js"></script>

@@ -1,0 +1,80 @@
+﻿@model EmbarquesGVI.Models.BD_A.embarques
+
+@{
+    ViewBag.Title = "Nuevo";
+}
+<div class="mt-4 container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="row">
+        <h4>Registrar nuevo embarque</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-md-1">
+            @Html.LabelFor(model => model.DocNum, htmlAttributes: new { @class = "control-label" })
+            <input class="form-control text-center fw-bold text-box bg-secondary bg-opacity-25 single-line" id="DocNum" name="DocNum" type="text" value="@ViewBag.Folio" tabindex="-1" readonly>
+            @Html.ValidationMessageFor(model => model.DocNum, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.plaza, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.plaza, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.plaza, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-2">
+            @Html.LabelFor(model => model.almacen, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.almacen, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @tabindex = "-1" } })
+            @Html.ValidationMessageFor(model => model.almacen, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-2">
+            @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @type = "date", @Value = String.Format("{0:yyyy-MM-dd}", DateTime.Now) } })
+            @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.tipoSol, "Tipo de solicitud", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("tipoSol", null, htmlAttributes: new { @class = "form-control form-select" })
+            @Html.ValidationMessageFor(model => model.tipoSol, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.paqueteria, "Paqueteria", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("paqueteria", null, htmlAttributes: new { @class = "form-control form-select" })
+            @Html.ValidationMessageFor(model => model.paqueteria, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.NoGuia, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.NoGuia, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NoGuia, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-2">
+            @Html.LabelFor(model => model.Total_Paquetes, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Total_Paquetes, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @tabindex = "-1" } })
+            @Html.ValidationMessageFor(model => model.Total_Paquetes, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-2 mb-4">
+            @Html.LabelFor(model => model.id_user, "Usuario", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("id_user", null, htmlAttributes: new { @class = "form-control form-select" })
+            @Html.ValidationMessageFor(model => model.id_user, "", new { @class = "text-danger" })
+        </div>
+        <hr />
+        <h6>Detalle de Embarque</h6>
+        <div class="form-group mt-4 ">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a href="@Url.Action("Index")" class="btn btn-warning text-white"><i class="bi bi-arrow-return-left"></i> Regresar</a>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+<script src="~/Scripts/scriptsembarques.js"></script>

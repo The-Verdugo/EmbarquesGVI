@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmbarquesGVI.Models.BD_A;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ namespace EmbarquesGVI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly pruebasEmbarquesEntities db = new pruebasEmbarquesEntities();
+
         public ActionResult Index()
         {
             return View();
@@ -30,5 +33,6 @@ namespace EmbarquesGVI.Controllers
         {
             return View();
         }
+
     }
 }

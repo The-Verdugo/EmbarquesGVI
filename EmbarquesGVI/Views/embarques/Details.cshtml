@@ -1,0 +1,106 @@
+﻿@model EmbarquesGVI.Models.BD_A.embarques
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>embarques</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DocNum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocNum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.plaza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.plaza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.almacen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.almacen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoGuia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoGuia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Paquetes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Paquetes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.embarquesDetCajas.DocEntry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.embarquesDetCajas.DocEntry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.embarquesDetTrans.No_trans)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.embarquesDetTrans.No_trans)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.usuarios.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuarios.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.paqueterias.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.paqueterias.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tiposSol.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tiposSol.nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DocEntry }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
