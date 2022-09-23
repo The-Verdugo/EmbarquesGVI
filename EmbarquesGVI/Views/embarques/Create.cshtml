@@ -10,23 +10,24 @@
 
     <div class="row">
         <h4>Registrar nuevo embarque</h4>
+        @* Seccion de encabezado *@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group col-md-1">
             @Html.LabelFor(model => model.DocNum, htmlAttributes: new { @class = "control-label" })
-            <input class="form-control text-center fw-bold text-box bg-secondary bg-opacity-25 single-line" id="DocNum" name="DocNum" type="text" value="@ViewBag.Folio" tabindex="-1" readonly>
+            <input class="form-control text-center fw-bold text-box bg-secondary bg-opacity-25 single-line " id="DocNum" name="DocNum" type="text" value="@ViewBag.Folio" tabindex="-1" readonly>
             @Html.ValidationMessageFor(model => model.DocNum, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group col-md-4">
             @Html.LabelFor(model => model.plaza, htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.plaza, new { htmlAttributes = new { @class = "form-control" } })
+            <input class="form-control text-box single-line ui-autocomplete-input fw-bold" id="plazaD" name="plazaD" placeholder="Buscar Plaza" type="text" value="" autocomplete="off">
             @Html.ValidationMessageFor(model => model.plaza, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.plaza)
         </div>
-
         <div class="form-group col-md-2">
             @Html.LabelFor(model => model.almacen, htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.almacen, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @tabindex = "-1" } })
+            @Html.EditorFor(model => model.almacen, new { htmlAttributes = new { @class = "form-control bg-light", @readonly = "readonly", @tabindex = "-1" } })
             @Html.ValidationMessageFor(model => model.almacen, "", new { @class = "text-danger" })
         </div>
 
@@ -57,17 +58,35 @@
 
         <div class="form-group col-md-2">
             @Html.LabelFor(model => model.Total_Paquetes, htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.Total_Paquetes, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @tabindex = "-1" } })
+            @Html.EditorFor(model => model.Total_Paquetes, new { htmlAttributes = new { @class = "form-control bg-light", @readonly = "readonly", @tabindex = "-1", @Value = 0 } })
             @Html.ValidationMessageFor(model => model.Total_Paquetes, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group col-md-2 mb-4">
-            @Html.LabelFor(model => model.id_user, "Usuario", htmlAttributes: new { @class = "control-label" })
-            @Html.DropDownList("id_user", null, htmlAttributes: new { @class = "form-control form-select" })
+        <div class="form-group col-md-2">
+            @Html.HiddenFor(model => model.id_user)
             @Html.ValidationMessageFor(model => model.id_user, "", new { @class = "text-danger" })
         </div>
-        <hr />
-        <h6>Detalle de Embarque</h6>
+        @* Seccion de detalle de transferencias y cantidades por medidas *@
+        <hr class="mt-4" />
+        <h5>Detalle de Embarque</h5>
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.embarquesDetTrans.DocEntry, "Transferencias", htmlAttributes: new { @class = "control-label mb-1" })
+            @Html.DropDownList("trans", null, htmlAttributes: new { @class = "form-control form-select border", @multiple = "multiple", @data_live_search = "true", @data_size = "5" })
+            @Html.ValidationMessageFor(model => model.paqueteria, "", new { @class = "text-danger" })
+        </div>
+        <div class="row align-items-center mt-4 g-2 g-lg-3 g-sm-1">
+            <h6>Cantidades de cajas por medida  <i class="bi bi-box-seam"></i></h6>
+            @foreach (var item in ViewBag.cajas)
+            {
+                <div class="col-md-1 col-sm-2 col-3">
+                    <label class="control-label m-auto" for="@("Caja"+item.idM)">@(item.largo + "X"+ item.ancho + "X"+ item.alto+"=")</label>
+                    <label class="badge text-bg-light shadow-sm m-auto" for="@("Caja"+item.idM)" style="font-size: 10px;">@("Peso = "+item.peso+ " Kg.")</label>
+                </div>
+                <div class="col-md-1 col-sm-9 col-8">
+                    <input class="form-control text-box single-line cajas" id="@("Caja"+item.idM)" name="@("Caja"+item.idM)" type="number" min="0" value="0">
+                </div>
+            }
+        </div>
         <div class="form-group mt-4 ">
             <div class="col-md-offset-2 col-md-6">
                 <input type="submit" value="Crear" class="btn btn-primary" />

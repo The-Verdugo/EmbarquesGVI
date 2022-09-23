@@ -16,6 +16,7 @@ namespace EmbarquesGVI.Controllers
         private pruebasEmbarquesEntities db = new pruebasEmbarquesEntities();
         private GVIEntities dbgvi = new GVIEntities();
 
+
         // GET: embarques
         public ActionResult Index()
         {
@@ -37,7 +38,6 @@ namespace EmbarquesGVI.Controllers
             }
             return View(embarques);
         }
-
         // GET: embarques/Create
         public ActionResult Create()
         {
@@ -46,50 +46,79 @@ namespace EmbarquesGVI.Controllers
             ViewBag.id_user = new SelectList(db.usuarios, "id", "nombre");
             ViewBag.paqueteria = new SelectList(db.paqueterias, "id_paq", "nombre");
             ViewBag.tipoSol = new SelectList(db.tiposSol, "id_sol", "nombre");
-            ViewBag.Folio = db.embarques.OrderByDescending(x=> x.DocEntry).First().DocEntry+1;
+            ViewBag.trans = new SelectList((from c in dbgvi.C_IMTRANS where c.Status == "O" && c.DocEntry == 1 select new { c.DocEntry, c.U_DocDate }).ToList(), "DocEntry", "DocEntry");
+            ViewBag.cajas = (from c in db.Mcajas select c).ToList();
+            ViewBag.Folio = db.embarques.OrderByDescending(x=> x.DocEntry).First().DocEntry+1; //Consulta el ultimo DocEntry de la BD y suma 1
             return View();
         }
 
-        // POST: embaruqes/getplazas
+        // POST: embarques/getTransfer
+        [HttpPost]
+        public JsonResult GetTransfer(string alm)
+        {
+            var transfer = (from c in dbgvi.C_IMTRANS where c.Status == "O" && c.U_WhsCodeOr == alm select new { c.DocEntry, c.CreateDate }).ToList();
+            return Json(transfer, JsonRequestBehavior.AllowGet);
+        }
+
+
+        // POST: embarques/getplazas
         [HttpPost]
         public JsonResult GetPlazas(string text, string type)
         {
             if (type == "num")
             {
+                
                 var plazas = (from c in dbgvi.OSLP
                               where c.U_Plaza.Contains(text) && !(c.SlpName.Contains("(BAJA)")) && c.Active.Equals("Y")
                               select new { c.SlpName, c.U_Plaza, c.SlpCode });
-                return Json(plazas, JsonRequestBehavior.AllowGet);
+                var plaza = new { plazas, type};
+                return Json(plaza, JsonRequestBehavior.AllowGet);
             }
             else 
             {
                 var plazas = (from c in dbgvi.OSLP
                               where c.SlpName.Contains(text) && !(c.SlpName.Contains("(BAJA)")) && c.Active.Equals("Y")
                               select new { c.SlpName, c.U_Plaza, c.SlpCode });
-                return Json(plazas, JsonRequestBehavior.AllowGet);
+                var plaza = new { plazas, type };
+                return Json(plaza, JsonRequestBehavior.AllowGet);
             }
             
         }
 
+        // POST: embarques/GetAlmacen
+        [HttpPost]
+        public JsonResult GetAlmacen(string slp)
+        {
+     
+            var almacen = (from c in dbgvi.OSLP where c.SlpName == slp select new { c.U_AlmPrincipal, c.SlpCode }).FirstOrDefault();
+            return Json(almacen, JsonRequestBehavior.AllowGet);
+          
+        }
+
         // POST: embarques/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DocEntry,DocNum,plaza,almacen,fecha,tipoSol,paqueteria,NoGuia,Total_Paquetes,id_user")] embarques embarques)
+        public ActionResult Create([Bind(Include = "DocEntry,DocNum,plaza,almacen,fecha,tipoSol,paqueteria,NoGuia,Total_Paquetes,id_user")] embarques embarques, string[] trans, int Caja1,int Caja2, int Caja3, int Caja4, int Caja5, int Caja6, int Caja7)
         {
-            if (ModelState.IsValid)
+            if (trans != null)
             {
-                db.embarques.Add(embarques);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.embarques.Add(embarques);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            
 
             ViewBag.DocEntry = new SelectList(db.embarquesDetCajas, "DocEntry", "DocEntry", embarques.DocEntry);
             ViewBag.DocEntry = new SelectList(db.embarquesDetTrans, "DocEntry", "No_trans", embarques.DocEntry);
             ViewBag.id_user = new SelectList(db.usuarios, "id", "nombre", embarques.id_user);
             ViewBag.paqueteria = new SelectList(db.paqueterias, "id_paq", "nombre", embarques.paqueteria);
             ViewBag.tipoSol = new SelectList(db.tiposSol, "id_sol", "nombre", embarques.tipoSol);
+            ViewBag.cajas = (from c in db.Mcajas select c).ToList();
+            ViewBag.trans = new SelectList((from c in dbgvi.C_IMTRANS where c.Status == "O" && c.U_WhsCodeOr == embarques.almacen.ToString() select new { c.DocEntry, c.CreateDate }).ToList(), "DocEntry", "DocEntry");
+            ViewBag.Folio = db.embarques.OrderByDescending(x => x.DocEntry).First().DocEntry + 1; //Consulta el ultimo DocEntry de la BD y suma 1
             return View(embarques);
         }
 
@@ -114,8 +143,6 @@ namespace EmbarquesGVI.Controllers
         }
 
         // POST: embarques/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DocEntry,DocNum,plaza,almacen,fecha,tipoSol,paqueteria,NoGuia,Total_Paquetes,id_user")] embarques embarques)
